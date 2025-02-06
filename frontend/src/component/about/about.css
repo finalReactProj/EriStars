@@ -1,0 +1,15 @@
+.mphoto{
+    box-shadow: 0 0 10px rgb(148, 138, 138);
+    padding: 0px;
+  
+}
+.shamot-y{
+    box-shadow: 0 0 35px rgb(148, 138, 138);
+    height: 280px;
+    width: 100%;
+}
+.shamot{
+    box-shadow: 0 0 35px rgb(148, 138, 138);
+    height: 350px;
+    width: 100%;
+}
