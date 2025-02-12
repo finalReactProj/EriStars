@@ -1,17 +1,27 @@
-import About from "./components/about/About"
-import Admin from "./components/admin/Admin"
-import Home from "./components/home/Home"
-import Login from "./components/loginSignup/Login"
-import Search from "./components/search/Search"
+import About from "./component/about/About"
+import Admin from "../src/component/admin/Admin"
+import Search from "./component/search/Search"
+import Home from "./component/Home/Home"
+import Header from "./component/header/Header"
+import Footer from "./component/Footer/Footer"
+import {BrowserRouter,Route,Routes} from "react-router-dom"
 
 
 function App() {
   
-
   return ( 
     <>
-    <About />
-    
+      <BrowserRouter>
+        <Header/>
+        <Routes>
+        
+          <Route path="/" element={<Home/> } />
+          <Route path="/search" element={<Search/> } />
+          <Route path="/about" element={<About/> } />
+          {/* <Route path="/contact" element={<Contact/> } /> */}
+        </Routes>
+        <Footer/>
+      </BrowserRouter>
       </>
   )
 }
