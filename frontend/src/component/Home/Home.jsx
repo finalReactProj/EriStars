@@ -20,14 +20,12 @@ const Home = () => {
         setArtist((current) => ({ ...current, user: res.data.message }))
       )
       .catch((error) => console.error(error));
-
-
     }, [])
     
 
 
     return (
-      <>
+      <main className="main">
         <div className="text-center  p-3">
           <h4>Why We Use Eri Stars</h4>
         </div>
@@ -53,25 +51,25 @@ const Home = () => {
           </div>
         </section>
         <div className="register">
-          <div className="row m-2 p-5 justify-content-between">
-            <button className="body-btn col-12 mb-3 p-1 col-md-3 m-2">
+          <div className="row m-lg-4  p-5 justify-content-between gap-2 btns">
+            <button className="body-btn col-10 mb-3 p-1 col-md-2">
               <label className="num-viewers">{artist.art}</label>
               <p>
-                Registered <br className="d-none d-md-block" />
+                Registered <br className="d-none d-sm-block" />
                 Artist
               </p>
             </button>
-            <button className="body-btn col-12 mb-3 p-2 col-md-3  m-2">
+            <button className="body-btn col-10 mb-3 p-2 col-md-2 ">
               <label className="num-viewers">{artist.user} </label>
               <p>
-                Registered <br className="d-none d-md-block" />
+                Registered <br className="d-none d-sm-block" />
                 Users
               </p>
             </button>
-            <button className="body-btn col-12 mb-3 p-2 col-md-3 m-2">
+            <button className="body-btn col-10 mb-3 p-2 col-md-2">
               <label className="num-viewers">1M</label>
               <p>
-                Weekly <br className="d-none d-md-block" />
+                Weekly <br className="d-none d-sm-block" />
                 Searches
               </p>
             </button>
@@ -80,28 +78,32 @@ const Home = () => {
             <h4>Most Popular Searches</h4>
           </div>
           <div className="row mb-5 justify-content-around px-lg-4 card-container ">
-            <div className="card  col-9 col-md-5 col-lg-3 m-3 ">
-              <img  src={abeba} alt="" />
+            <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
+              <img src={abeba} alt="" />
               <div className="text-center m-3">
                 <label for="">
                   <h5>Isaias-Tsegai</h5>
                 </label>
               </div>
-              <div className="viewbtn text-center">
-                <a href="https://tesfanews.com/isaias-tsegay-proficient-master-of-the-literature-of-the-eye/">
+              <div className="viewbtn row text-center">
+                <a
+                  className="col-10 mx-auto py-1"
+                  href="https://tesfanews.com/isaias-tsegay-proficient-master-of-the-literature-of-the-eye/"
+                >
                   View
                 </a>
               </div>
             </div>
-            <div className="card  col-9 col-md-5 col-lg-3 m-3 ">
+            <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
               <img src={abeba} alt="" />
               <div className="text-center m-3">
                 <label for="">
                   <h5>Abraham Afewerki</h5>
                 </label>
               </div>
-              <div className="viewbtn text-center">
+              <div className="viewbtn row text-center">
                 <a
+                  className="col-10 mx-auto py-1"
                   href="https://en.wikipedia.org/wiki/Abraham_Afewerki"
                   target="_blank"
                 >
@@ -109,22 +111,25 @@ const Home = () => {
                 </a>
               </div>
             </div>
-            <div className="card  col-9 col-md-5 col-lg-3 m-3 ">
+            <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
               <img src={abeba} alt="" />
               <div className="text-center m-3">
                 <label for="">
                   <h5>Solomon Tsehaye</h5>
                 </label>
               </div>
-              <div className="viewbtn text-center">
-                <a href="https://en.wikipedia.org/wiki/Eritrea,_Eritrea,_Eritrea">
+              <div className="viewbtn row text-center">
+                <a
+                  className="col-10 mx-auto py-1"
+                  href="https://en.wikipedia.org/wiki/Eritrea,_Eritrea,_Eritrea"
+                >
                   View
                 </a>
               </div>
             </div>
           </div>
         </div>
-      </>
+      </main>
     );
 }
 
