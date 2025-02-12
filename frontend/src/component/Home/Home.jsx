@@ -54,21 +54,21 @@ const Home = () => {
         </section>
         <div className="register">
           <div className="row m-2 p-5 justify-content-between">
-            <button className="body-btn col-12 mb-3 p-1 col-md-3 m-2">
+            <button className="body-btn col-12 mb-3 p-1 col-md-2 m-2">
               <label className="num-viewers">{artist.art}</label>
               <p>
                 Registered <br className="d-none d-md-block" />
                 Artist
               </p>
             </button>
-            <button className="body-btn col-12 mb-3 p-2 col-md-3  m-2">
+            <button className="body-btn col-12 mb-3 p-2 col-md-2  m-2">
               <label className="num-viewers">{artist.user} </label>
               <p>
                 Registered <br className="d-none d-md-block" />
                 Users
               </p>
             </button>
-            <button className="body-btn col-12 mb-3 p-2 col-md-3 m-2">
+            <button className="body-btn col-12 mb-3 p-2 col-md-2 m-2">
               <label className="num-viewers">1M</label>
               <p>
                 Weekly <br className="d-none d-md-block" />

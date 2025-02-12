@@ -1,8 +1,6 @@
-import About from "./components/about/About"
-import Admin from "./components/admin/Admin"
-import Home from "./components/home/Home"
-import Login from "./components/loginSignup/Login"
-import Search from "./components/search/Search"
+import About from "./component/about/About"
+import Home from "./component/Home/Home"
+
 
 
 function App() {
@@ -10,7 +8,7 @@ function App() {
 
   return ( 
     <>
-    <About />
+<Home/>
     
       </>
   )
