@@ -34,7 +34,7 @@ router.get("/getAll", async (req, res) => {
 
 router.post("/api/register", async (req, res) => {
   const {
-    body: { firstName, lastName, email, password },
+    body: { data: { firstName, lastName, email, password } },
   } = req;
   try {
     if (!firstName || !lastName || !email || !password)
