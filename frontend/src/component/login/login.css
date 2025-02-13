@@ -1,0 +1,34 @@
+.login{
+    background-color: rgb(154, 185, 185);
+    margin: auto;
+    width: 30%;
+    padding: 10px;
+    border-radius: 10px;
+}
+.login h2{
+    text-align: center;
+}
+.login form{
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    align-items: center;
+    
+}
+.login form label{
+    display: flex;
+    width: 250px;
+ 
+}
+.login form > input{
+    outline: 0;
+    width: 60%;
+    padding: 7px;
+    border: 1px solid gray;
+}
+
+.login>div{
+    width: 80%;
+    margin: auto;
+    padding-left: 50px;
+}

@@ -74,11 +74,9 @@ router.post("/api/register", async (req, res) => {
 //login
 
 router.post("/api/login", async (req, res) => { 
-   console.log(req)
   const {
-    body:{data:{ email, password }},
+    body:  { data: { email, password  } },
   } = req;
-
   if (!email || !password)
     return res.status(400).send({ message: "fill out all the fields please." });
   try {
