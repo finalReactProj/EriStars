@@ -4,6 +4,9 @@ import Camels from "../../assets/camels.jpg";
 import "./headers.css";
 import { Link } from "react-router-dom";
 const Header = () => {
+
+
+  
   return (
     <>
       <div className="header-container">
@@ -22,7 +25,7 @@ const Header = () => {
             <a href="contact.html">Contact</a>
           </li>
         </ul>
-        <button className="btn">Login</button>
+        <Link to="/login"><button className="btn">Login</button></Link>
       </div>
       <img className="camel_logo" src={Camels} alt="" />
     </>

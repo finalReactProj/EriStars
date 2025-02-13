@@ -5,10 +5,8 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-  
-  },
-  "author": "",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"},
   "license": "ISC",
   "dependencies": {
     "bcrypt": "^5.1.1",
