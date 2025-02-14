@@ -1,6 +1,6 @@
 import { FiPhone, FiMail, FiMapPin } from "react-icons/fi"; // Feather Icons
 
-const ContactForm = () => {
+const Contact = () => {
   return (
     <div className=" flex justify-center items-center min-h-screen bg-gray-100 ">
       <div className="flex flex-col sm:flex-col sm:my-3 sm:mx-1 md:my-3 md:mx-1 md:flex-col lg:flex-row xl:flex-row   p-8 rounded-xl shadow-md w-[800px]">
@@ -106,4 +106,4 @@ const ContactForm = () => {
   );
 };
 
-export default ContactForm;
+export default Contact;

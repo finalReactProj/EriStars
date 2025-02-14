@@ -89,6 +89,8 @@ router.post("/api/login", async (req, res) => {
     res.cookie("connect.sid", token, {
       maxAge: 60 * 60 * 1000,
       httpOnly: true,
+      secure: false,
+      sameSite:"Lax" 
     });
     res
       .status(200)
@@ -112,6 +114,14 @@ router.post("/api/logout", async (req, res) => {
     res.status(500).send({ message: error.message });
   }
 });
+
+router.get("/api/Auth", (req, res) => { 
+  const token = req.cookies["connect.sid"];
+  if (!token) return res.json({message:false })
+  const isUserLogggedIN = jwt.verify(token, process.env.JWTSECURITY);
+  if (!isUserLogggedIN) return res.status(400).json({ message: false })
+  res.status(200).json({message:true})
+})
 
 // forget pass
 

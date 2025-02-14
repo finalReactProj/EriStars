@@ -22,12 +22,14 @@ const Header = () => {
             <Link to="/about">About</Link>
           </li>
           <li>
-            <a href="contact.html">Contact</a>
+            <Link to="/contact">Contact</Link>
           </li>
         </ul>
-        <Link to="/login"><button className="btn">Login</button></Link>
+        <Link to="/login">
+          <button className="btn">Login</button>
+        </Link>
       </div>
-      <img className="camel_logo" src={Camels} alt="" />
+      <img className="camel_logo mb-6" src={Camels} alt="" />
     </>
   );
 };

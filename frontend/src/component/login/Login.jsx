@@ -1,19 +1,19 @@
 import axios from "axios";
 import {useForm} from "react-hook-form"
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import "./login.css";
 
 const Login = () => {
-  
+  const navigateTo = useNavigate();
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm();
     const handlelogin = (data) => {
-        axios.post("http://localhost:3001/api/login", { data })
-            .then((result) => console.log(result))
-      .catch((err) => alert(err.data));
+        axios.post("http://localhost:3001/api/login", { data },{withCredentials:true})
+          .then((result) => navigateTo("/") )
+      .catch((err) => alert(err.response.data.message));
   };
   return (
     <div className="login">
