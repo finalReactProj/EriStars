@@ -11,13 +11,14 @@ import Login from "./component/login/Login";
 import Register from "./component/register/Register";
 import Contact from "./component/Contact/Contact";
 import ProtectedRoute from "./component/protected/ProtectedRoute";
+import { useState } from "react";
 
-function LayOut({ children }) {
+function LayOut({ children,isAuthenticate,setUserAuthenticated }) {
   const location = useLocation();
   const isLoggedIn = location.pathname === "/login";
   return (
     <>
-      {!isLoggedIn && <Header />}
+      {!isLoggedIn && <Header isAuthenticate={isAuthenticate } setUserAuthenticated={setUserAuthenticated} />}
       {children}
       {!isLoggedIn && <Footer />}
     </>
@@ -25,25 +26,45 @@ function LayOut({ children }) {
 }
 
 function App() {
+  const [userAuthenticated, setUserAuthenticated] = useState(null);
+  const isAuthenticated = (value) => {
+    setUserAuthenticated(value);
+    console.log(value)
+  };
   return (
     <>
       <BrowserRouter>
-        <LayOut>
-        <Routes>
-          <Route path="/" element={<Home />} />
-          <Route path="/login" element={ <Login/>} />
-          <Route
-            path="/search"
-            element={<ProtectedRoute element={<Search />} />}
-          />
-          <Route
-            path="/about"
-            element={<ProtectedRoute element={<About />} />}
-          />
-          <Route
-            path="/contact"
-            element={<ProtectedRoute element={<Contact />} />}
-          />
+        <LayOut isAuthenticate={userAuthenticated} setUserAuthenticated={setUserAuthenticated}>
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/login" element={<Login />} />
+            <Route
+              path="/search"
+              element={
+                <ProtectedRoute
+                  element={<Search />}
+                  isAuthenticate={isAuthenticated}
+                />
+              }
+            />
+            <Route
+              path="/about"
+              element={
+                <ProtectedRoute
+                  element={<About />}
+                  isAuthenticate={isAuthenticated}
+                />
+              }
+            />
+            <Route
+              path="/contact"
+              element={
+                <ProtectedRoute
+                  element={<Contact />}
+                  isAuthenticate={isAuthenticated}
+                />
+              }
+            />
           </Routes>
         </LayOut>
       </BrowserRouter>
