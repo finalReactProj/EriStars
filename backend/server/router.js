@@ -3,6 +3,8 @@ import jwt from "jsonwebtoken"
 import { imageModel, userModel } from "./schema.js";
 import express from "express";
 import dotenv from "dotenv/config";
+import nodemailer from "nodemailer"
+
 
 const router = express.Router()
 
@@ -102,7 +104,7 @@ router.post("/api/login", async (req, res) => {
   }
 });
 
-//lodout
+//logout
 
 router.post("/api/logout", async (req, res) => {
   try {
@@ -116,13 +118,42 @@ router.post("/api/logout", async (req, res) => {
 });
 
 router.get("/api/Auth", (req, res) => { 
-  const token = req.cookies["connect.sid"];
+  try{  const token = req.cookies["connect.sid"];
   if (!token) return res.json({message:false })
   const isUserLogggedIN = jwt.verify(token, process.env.JWTSECURITY);
   if (!isUserLogggedIN) return res.status(400).json({ message: false })
-  res.status(200).json({message:true})
+    res.status(200).json({ message: true })
+  } catch (error) {
+    res.status(500).send({ message: error.message });
+  }
+
 })
 
+
+router.post("/api/message",async(req, res) => {
+try {
+  const { firstName, lastName, email, phone, message } = req.body.data;
+  if (!firstName || !lastName || !email || !phone || !message) return res.send({message:"Please fill out all the fields"})
+  const transporter = nodemailer.createTransport({
+    service: "gmail",
+    auth: {
+      user:email,
+      pass: "tuxt uoze hnon gezz",
+    },
+  });
+  const mail = {
+    from: email,
+    to: "luulsara24@gmail.com",
+    subject: "comment about the website",
+    html: `<p>${message}</p>`,
+  };
+await transporter.sendMail(mail)
+
+
+} catch (error) {
+  
+}
+})
 // forget pass
 
 router.post("/api/forgotPass", async (req, res) => {});

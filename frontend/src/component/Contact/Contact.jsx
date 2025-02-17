@@ -1,6 +1,23 @@
+import axios from "axios";
 import { FiPhone, FiMail, FiMapPin } from "react-icons/fi"; // Feather Icons
+import { useForm } from "react-hook-form";
+
+
+
 
 const Contact = () => {
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useForm();
+  const sendmessage = (data) => {
+    console.log(data);
+    axios.post("http://localhost:3001/api/message", { data })
+      .then(result => console.log(result.data.message))
+    .catch(error=>console.log(error.response.data.message))
+ }
+
   return (
     <div className=" flex justify-center items-center min-h-screen bg-gray-100 ">
       <div className="flex flex-col sm:flex-col sm:my-3 sm:mx-1 md:my-3 md:mx-1 md:flex-col lg:flex-row xl:flex-row   p-8 rounded-xl shadow-md w-[800px]">
@@ -29,7 +46,7 @@ const Contact = () => {
 
         {/* Form Section */}
         <div className="w-full bg-gray-100 border-l pl-2 xl:pl-2 lg:pl-2 md:border-0 sm:border-0 border-green-500 sm:w-full md:w-full lg:w-[500px] xl:w-[500px] mt-6 lg:mt-0">
-          <form className="space-y-6">
+          <form className="space-y-6" onSubmit={handleSubmit(sendmessage)}>
             <div className="grid grid-cols-2 gap-6">
               <div>
                 <label
@@ -39,9 +56,8 @@ const Contact = () => {
                   First Name
                 </label>
                 <input
+                  {...register("firstName")}
                   type="text"
-                  id="first-name"
-                  name="first-name"
                   className="w-full p-3 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -50,9 +66,8 @@ const Contact = () => {
                   Last Name
                 </label>
                 <input
+                  {...register("lastName")}
                   type="text"
-                  id="last-name"
-                  name="last-name"
                   className="w-full p-3 border border-gray-300 rounded-lg"
                 />
               </div>
@@ -62,9 +77,8 @@ const Contact = () => {
                 Email
               </label>
               <input
+                {...register("email")}
                 type="email"
-                id="email"
-                name="email"
                 className="w-full p-3 border border-gray-300 rounded-lg"
               />
             </div>
@@ -75,10 +89,10 @@ const Contact = () => {
               >
                 Phone Number
               </label>
+             
               <input
-                type="tel"
-                id="phone-number"
-                name="phone-number"
+                {...register("phone")}
+                type="number"
                 className="w-full p-3 border border-gray-300 rounded-lg"
               />
             </div>
@@ -87,8 +101,7 @@ const Contact = () => {
                 Message
               </label>
               <textarea
-                id="message"
-                name="message"
+                {...register("message")}
                 rows="5"
                 className="w-full p-3 border border-gray-300 rounded-lg resize-vertical"
               ></textarea>
