@@ -8,7 +8,7 @@ const Search = () => {
   const [artists, setArtists] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [searches, setSearches] = useState({
-status:"All", type:"All"
+status:"", type:""
   });
 console.log(searches)
   useEffect(() => {
@@ -21,16 +21,17 @@ console.log(searches)
   const searchedArtists = artists
     .filter(
       (artist) => {
-        const names = artist.fullName.toLowerCase().includes(searchTerm.toLowerCase())
-        const sta = artist.status.toLowerCase().includes(searches.status.toLowerCase()) 
-        const ty = artist.type.toLowerCase().includes(searches.type.toLowerCase())
-        return names || sta || ty;
+        return(
+         artist.fullName.toLowerCase().includes(searchTerm.toLowerCase())&&
+       artist.status.toLowerCase().includes(searches.status.toLowerCase()) &&
+         artist.type.toLowerCase().includes(searches.type.toLowerCase()))
       }
     )
     .sort((a, b) => a.fullName.localeCompare(b.fullName));
 
   
-  //const artistStatus=artists.filter(status=>status.status.toLowerCase())
+
+
   return (
     <div className="search">
       <div className="search-title text-center my-4">
