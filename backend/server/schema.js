@@ -10,6 +10,7 @@ const imageSchema = new mongoose.Schema(
     status: { type: String, required: true },
     type: { type: String, required: true },
     imageSrc: { type: String, required: true },
+    history: { type: String, required: true },
   },
   { timestamps: true }
 );

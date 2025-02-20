@@ -12,10 +12,12 @@ import Register from "./component/register/Register";
 import Contact from "./component/Contact/Contact";
 import ProtectedRoute from "./component/protected/ProtectedRoute";
 import { useState } from "react";
+import Admin from "./component/admin/Admin";
 
 function LayOut({ children,isAuthenticate,setUserAuthenticated }) {
   const location = useLocation();
-  const isLoggedIn = location.pathname === "/login";
+  const hideHeaderFooterPages = ['/login',"/register","/admin"];
+  const isLoggedIn = hideHeaderFooterPages.includes(location.pathname);
   return (
     <>
       {!isLoggedIn && <Header isAuthenticate={isAuthenticate } setUserAuthenticated={setUserAuthenticated} />}
@@ -38,6 +40,8 @@ function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/admin" element={<Admin />} />
             <Route
               path="/search"
               element={

@@ -1,7 +1,8 @@
 .login{
     background-color: rgb(154, 185, 185);
-    margin: auto;
+    margin:10rem  auto;
     width: 30%;
+    height: 35%;
     padding: 10px;
     border-radius: 10px;
 }
@@ -13,16 +14,16 @@
     flex-direction: column;
     gap: 8px;
     align-items: center;
-    
+    justify-content: center;
 }
 .login form label{
     display: flex;
-    width: 250px;
- 
+    width: 60%;
+    gap: 3%;
 }
 .login form > input{
     outline: 0;
-    width: 60%;
+    width:60%;
     padding: 7px;
     border: 1px solid gray;
 }
@@ -32,3 +33,39 @@
     margin: auto;
     padding-left: 50px;
 }
+ @media screen and (max-width:768px){
+.login{
+   width: 90%;
+   height: auto;
+   font-size: 30px;
+}
+.login h2{
+   font-size: 40px; 
+   margin-top: 30px;
+}
+.login form{
+    row-gap: 50px;
+    margin-bottom: 20px;
+}
+input[type="checkbox"]{
+width: 20px;
+}
+.login form > input,.login form label{
+    padding: 5px;
+    width: 80%;
+}
+.login>div{
+    width: 80%;
+   margin: auto;
+    padding-left: 0;
+}
+ }
+
+ @media screen and (max-width:1200px) {
+    .login{
+   width: 50%;
+   height: auto;
+   font-size: 25px;
+}
+ }
+

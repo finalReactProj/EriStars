@@ -1,4 +1,5 @@
 import express from "express"
+import { imageModel } from "./schema.js";
 const route = express.Router();
 
 route.post("/api/addimage", async (req, res) => {
@@ -25,9 +26,8 @@ route.delete("/api/delete/:id", async (req, res) => {
   const id = req.params.id;
   try {
     if (!id) return res.send({ message: `${fullName} has no id.` });
-    const artistToDel = await imageModel.findByIdAndDelete(id);
-    res.send({ message: await imageModel.find() });
-    console.log(artistToDel);
+    const artistToDel = await imageModel.findByIdAndDelete( id );
+    res.send({ message: "deleted" });
   } catch (error) {
     res.status(500).send({ message: error.message });
   }
