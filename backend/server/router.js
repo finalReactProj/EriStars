@@ -11,16 +11,16 @@ const router = express.Router()
 router.post("/api/addimage", async (req, res) => {
   const {
     body: {
-      data: { fullName, status, type, imageSrc },
+      data: { fullName, status, type, imageSrc,history },
     },
   } = req;
 
-  if (!fullName || !status || !type || !imageSrc)
+  if (!fullName || !status || !type || !imageSrc || !history)
     return res.send({ message: "please fill out all the fields " });
   try {
     const exist = await imageModel.findOne({ fullName, type });
     if (exist) return res.send({ message: `${fullName} already existed` });
-    const saveArtist = new imageModel({ fullName, status, type, imageSrc });
+    const saveArtist = new imageModel({ fullName, status, type, imageSrc,history });
     await saveArtist.save();
     res.send({ message: "Artist saved succesfully" });
   } catch (error) {
@@ -31,6 +31,7 @@ router.get("/getAll", async (req, res) => {
   const artists = await imageModel.find();
   res.send({ message: artists });
 });
+
 
 //Register
 

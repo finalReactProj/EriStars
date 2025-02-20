@@ -34,7 +34,7 @@ const Header = ({ isAuthenticate, setUserAuthenticated }) => {
         <img src={logo} alt="EriStars-logo" className="logo" />
         <ul className="navLists">
           <li>
-            <Link to="/">Home</Link>
+            <Link  to="/">Home</Link>
           </li>
           <li>
             <Link to="/search">Search</Link>
