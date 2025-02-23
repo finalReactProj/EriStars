@@ -1,9 +1,10 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken"
-import { imageModel, userModel } from "./schema.js";
+import {  imageModel, userModel } from "./schema.js";
 import express from "express";
 import dotenv from "dotenv/config";
 import nodemailer from "nodemailer"
+import cron from "node-cron"
 
 
 const router = express.Router()
@@ -88,9 +89,9 @@ router.post("/api/login", async (req, res) => {
     const checkPass = await bcrypt.compare(password, user.password);
     if (!checkPass) return res.status(403).send({ message: "bad credentials" });
         const token = jwt.sign({ id: user._id }, 
-        process.env.JWTSECURITY, { expiresIn: "1hr" });
+        process.env.JWTSECURITY, { expiresIn: "4hr" });
     res.cookie("connect.sid", token, {
-      maxAge: 60 * 60 * 1000,
+      maxAge: 4*60 * 60 * 1000,
       httpOnly: true,
       secure: false,
       sameSite:"Lax" 
@@ -119,7 +120,8 @@ router.post("/api/logout", async (req, res) => {
 });
 
 router.get("/api/Auth", (req, res) => { 
-  try{  const token = req.cookies["connect.sid"];
+  try {
+    const token = req.cookies["connect.sid"];
   if (!token) return res.json({message:false })
   const isUserLogggedIN = jwt.verify(token, process.env.JWTSECURITY);
   if (!isUserLogggedIN) return res.status(400).json({ message: false })
@@ -157,9 +159,54 @@ await transporter.sendMail(mail)
 })
 // forget pass
 
-router.post("/api/forgotPass", async (req, res) => {});
+router.post("/api/forgot-password", async (req, res) => {
+  const email = req.body.email;
+  try {
+    if (!email) return res.status(400).send({ message: "fill in the field please!" })
+  const user = await userModel.findOne({email})
+    if (!user) return res.status(404).send({ message: "provide valid email please!" });
+    const token = jwt.sign({ id: user._id }, process.env.JWTSECURITY, { expiresIn: "1hr" })
+    const resetUrl = `http://localhost:5173/reset-password?token=${token}`;
+   
+    const transporter = nodemailer.createTransport({
+      service: "gmail",
+      auth: {
+        user: "yemanetesfu442@gmail.com",
+        pass: "tuxt uoze hnon gezz",
+      },
+    });
 
+    const mail = {
+      from: "yemanetesfu442@gmail.com",
+      to: email,
+      subject: "reset your password",
+      html: `<p>reset your password?Click <a href=${resetUrl}>here</a></p>`,
+    };
 
+    await transporter.sendMail(mail)
+    return res.json({ message: "Password reset email sent" });
+  } catch (error) {
+     res.status(500).send({ message: error.message });
+  }
+  
+});
+
+router.post("/api/reset-password", async (req, res) => {
+  const password = req.body.password;
+  const token = req.body.resetToken;
+  try {
+      if (!password) return res.status(400).send({ message: "fill in the field please!" });
+  const isTokenExpired = jwt.verify(token, process.env.JWTSECURITY)
+  const hashedPassword = await bcrypt.hash(password,10);
+  const user = await userModel.findOne({ _id: isTokenExpired.id })
+  user.password = hashedPassword;
+    await user.save();
+    res.status(200).send({message:"password resetted successfully"})
+  } catch (error) {
+        res.status(500).send({ message: error.message});
+  }
+  
+})
 
 
 router.get("/api/getAllArtists", async (req, res) => {
@@ -180,6 +227,37 @@ router.get("/api/getAllUsers", async (req, res) => {
 });
 
 
+//count total searches
+
+router.post("/api/countSearches", async (req, res) => {
+  try {
+        const artist = req.body.numberOfSearches;
+        if (!artist)
+          return res.status(400).send({ message: "search input is empty" });
+        const checkArtist = await imageModel.findOne({ fullName: artist });
+        if (!checkArtist)
+          return res.status(404).send({ message: "artist is not registered" });
+        checkArtist.count += 1;
+        checkArtist.lastSearchedDate = new Date(); 
+        await checkArtist.save();
+        res.status(201).send({ message: "counter created" });
+  } catch (error) {
+     res.status(500).send({ message:error.message });
+  }
+
+
+})
+ 
+router.get("/api/getPopularArtists", async (req, res) => {
+  try {
+    const topArtist = await imageModel.find({},{_id:0,type:0,status:0,createdAt:0,updatedAt:0})
+      .sort({ count: -1 })
+      .limit(3)
+    res.status(200).send({ message: topArtist })
+  } catch (error) {
+      res.status(500).send({ message: error.message });
+  }
+});
 
 
 export default router

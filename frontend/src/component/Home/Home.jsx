@@ -1,13 +1,19 @@
-import React, { useEffect,useState } from 'react'
+import React, { useContext, useEffect,useState } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css"
-import abeba from "../../assets/abebaHaile.jpg";
 import axios from 'axios';
+import { context } from '../../App';
 const Home = () => {
+  const first = useContext(context)
   const [artist, setArtist] = useState({
     art: null,
     user:null
- })
+  })
+  const [mostlySearches, setMostlySearches] = useState([])
+
+
+
+       
 
   useEffect(() => {
     axios.get("http://localhost:3001/api/getAllArtists")
@@ -20,10 +26,22 @@ const Home = () => {
         setArtist((current) => ({ ...current, user: res.data.message }))
       )
       .catch((error) => console.error(error));
+    axios
+      .get("http://localhost:3001/api/getPopularArtists")
+      .then((res) => {
+        setMostlySearches(res.data.message);
+        //count();
+      })
+    
+    .catch((error) => console.error(error));
     }, [])
     
 
-
+  const count = () => {
+    const sevenDays = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
+    return searchEvents.filter((event) => new Date(event.date) >= sevenDays)
+      .length;
+  };
     return (
       <main className="main">
         <div className="text-center  p-3">
@@ -67,7 +85,7 @@ const Home = () => {
               </p>
             </button>
             <button className="body-btn col-10 mb-3 p-2 col-md-2">
-              <label className="num-viewers">1M</label>
+              <label className="num-viewers">uio</label>
               <p>
                 Weekly <br className="d-none d-sm-block" />
                 Searches
@@ -78,55 +96,24 @@ const Home = () => {
             <h4>Most Popular Searches</h4>
           </div>
           <div className="row mb-5 justify-content-around px-lg-4 card-container ">
-            <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
-              <img src={abeba} alt="" />
-              <div className="text-center m-3">
-                <label for="">
-                  <h5>Isaias-Tsegai</h5>
-                </label>
+            {mostlySearches.map((topArtist, index) => (
+              <div className="card  col-9 col-md-3 col-lg-3 m-3 " key={index}>
+                <img src={topArtist.imageSrc} alt="" />
+                <div className="text-center m-3">
+                  <label for="">
+                    <h5>{ topArtist.fullName}</h5>
+                  </label>
+                </div>
+                <div className="viewbtn row text-center">
+                  <a
+                    className="col-10 mx-auto py-1"
+                    href={topArtist.history}
+                  >
+                    View
+                  </a>
+                </div>
               </div>
-              <div className="viewbtn row text-center">
-                <a
-                  className="col-10 mx-auto py-1"
-                  href="https://tesfanews.com/isaias-tsegay-proficient-master-of-the-literature-of-the-eye/"
-                >
-                  View
-                </a>
-              </div>
-            </div>
-            <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
-              <img src={abeba} alt="" />
-              <div className="text-center m-3">
-                <label for="">
-                  <h5>Abraham Afewerki</h5>
-                </label>
-              </div>
-              <div className="viewbtn row text-center">
-                <a
-                  className="col-10 mx-auto py-1"
-                  href="https://en.wikipedia.org/wiki/Abraham_Afewerki"
-                  target="_blank"
-                >
-                  View
-                </a>
-              </div>
-            </div>
-            <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
-              <img src={abeba} alt="" />
-              <div className="text-center m-3">
-                <label for="">
-                  <h5>Solomon Tsehaye</h5>
-                </label>
-              </div>
-              <div className="viewbtn row text-center">
-                <a
-                  className="col-10 mx-auto py-1"
-                  href="https://en.wikipedia.org/wiki/Eritrea,_Eritrea,_Eritrea"
-                >
-                  View
-                </a>
-              </div>
-            </div>
+            ))}
           </div>
         </div>
       </main>

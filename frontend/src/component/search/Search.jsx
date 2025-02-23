@@ -1,16 +1,28 @@
 import abeba from "../../assets/abebaHaile.jpg"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./search.css";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { context } from "../../App";
 const Search = () => {
-  const artistType=[ "All", "Singer","Musician","Actor/Actress","Author", "Poet","Painter"]
+  const first = useContext(context)
+  const [searchEvents, setSearchEvents] = useState([]);
+  const artistType = [
+    "All",
+    "Singer",
+    "Musician",
+    "Actor/Actress",
+    "Author",
+    "Poet",
+    "Painter",
+  ];
   const [artists, setArtists] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
+  const [numberOfSearches, setNumberOfSearches] = useState("");
   const [searches, setSearches] = useState({
-status:"", type:""
+    status: "",
+    type: "",
   });
-console.log(searches)
   useEffect(() => {
     axios
       .get("http://localhost:3001/getAll")
@@ -19,17 +31,25 @@ console.log(searches)
   }, []);
 
   const searchedArtists = artists
-    .filter(
-      (artist) => {
-        return(
-         artist.fullName.toLowerCase().includes(searchTerm.toLowerCase())&&
-       artist.status.toLowerCase().includes(searches.status.toLowerCase()) &&
-         artist.type.toLowerCase().includes(searches.type.toLowerCase()))
-      }
-    )
+    .filter((artist) => {
+      return (
+        artist.fullName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        artist.status.toLowerCase().includes(searches.status.toLowerCase()) &&
+        artist.type.toLowerCase().includes(searches.type.toLowerCase())
+      );
+    })
     .sort((a, b) => a.fullName.localeCompare(b.fullName));
-
   
+  
+
+  const handleSearch = ()=>{
+    axios
+      .post("http://localhost:3001/api/countSearches",  {numberOfSearches} )
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error));
+}
+
+
 
 
   return (
@@ -46,12 +66,20 @@ console.log(searches)
               type="text"
               placeholder="Enter Name"
               onChange={(e) => setSearchTerm(e.target.value)}
+              onBlur={(e) => setNumberOfSearches(e.target.value)}
             />
           </div>
           <div className=" status col-12 col-lg-3">
             <label for="">Status</label>
             <br />
-            <select onChange={e=>setSearches(current=>({...current,status:e.target.value}))}>
+            <select
+              onChange={(e) =>
+                setSearches((current) => ({
+                  ...current,
+                  status: e.target.value,
+                }))
+              }
+            >
               <option value="All">All</option>
               <option value="Alive" href="">
                 Alive
@@ -64,14 +92,21 @@ console.log(searches)
               <div className=" col-6">
                 <label for="">Type</label>
                 <br />
-                <select onChange={e=>setSearches(current=>({...current,type:e.target.value}))}>
+                <select
+                  onChange={(e) =>
+                    setSearches((current) => ({
+                      ...current,
+                      type: e.target.value,
+                    }))
+                  }
+                >
                   {artistType.map((type) => (
-                    <option value={type}>{type }</option>
+                    <option value={type}>{type}</option>
                   ))}
                 </select>
               </div>
               <div className="search-btn col-3  mt-3 ">
-                <button type="submit">Search</button>
+                <button type="submit" onClick={handleSearch}>Search</button>
               </div>
             </div>
           </div>
@@ -106,6 +141,6 @@ console.log(searches)
       </div>
     </div>
   );
-}
+};
 
 export default Search;
