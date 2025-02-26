@@ -9,8 +9,10 @@ const imageSchema = new mongoose.Schema(
     fullName: { type: String, required: true },
     status: { type: String, required: true },
     type: { type: String, required: true },
-    imageSrc: { type: String, required: true },
+    imageUrl: { type: String, required: true },
     history: { type: String, required: true },
+    count: { type: Number, default: 0 },
+    lastSearchedDate: { type: Date, default: Date.now }
   },
   { timestamps: true }
 );
