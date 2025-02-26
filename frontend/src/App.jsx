@@ -1,7 +1,6 @@
 
 
 import About from "./component/about/About";
-//import Admin from "../src/component/admin/Admin";
 import Search from "./component/search/Search";
 import Home from "./component/Home/Home";
 import Header from "./component/header/Header";
@@ -11,7 +10,7 @@ import Login from "./component/login/Login";
 import Register from "./component/register/Register";
 import Contact from "./component/Contact/Contact";
 import ProtectedRoute from "./component/protected/ProtectedRoute";
-import { createContext, useState } from "react";
+import {  useState } from "react";
 import Admin from "./component/admin/Admin";
 import ResetPass from "./component/login/ResetPass";
 
@@ -32,17 +31,14 @@ function LayOut({ children,isAuthenticate,setUserAuthenticated }) {
     </>
   );
 }
-export const context = createContext();
 function App() {
   
   const [userAuthenticated, setUserAuthenticated] = useState(null);
-  const [weeklySearch, setWeeklySearch] = useState();
   const isAuthenticated = (value) => {
     setUserAuthenticated(value);
   };
   return (
     <>
-      <context.Provider value={{ setWeeklySearch, weeklySearch }}>
         <BrowserRouter>
           <LayOut
             isAuthenticate={userAuthenticated}
@@ -84,7 +80,6 @@ function App() {
             </Routes>
           </LayOut>
         </BrowserRouter>
-      </context.Provider>
     </>
   );
 }

@@ -1,12 +1,9 @@
 import abeba from "../../assets/abebaHaile.jpg"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./search.css";
-import { useContext, useEffect, useState } from "react";
+import {  useEffect, useState } from "react";
 import axios from "axios";
-import { context } from "../../App";
 const Search = () => {
-  const first = useContext(context)
-  const [searchEvents, setSearchEvents] = useState([]);
   const artistType = [
     "All",
     "Singer",
@@ -26,7 +23,9 @@ const Search = () => {
   useEffect(() => {
     axios
       .get("http://localhost:3001/getAll")
-      .then((result) => setArtists(result.data.message))
+      .then((result) => {
+        setArtists(result.data.message);
+      })
       .catch((error) => console.log(error.response.data.message));
   }, []);
 
@@ -39,18 +38,13 @@ const Search = () => {
       );
     })
     .sort((a, b) => a.fullName.localeCompare(b.fullName));
-  
-  
 
-  const handleSearch = ()=>{
+  const handleSearch = () => {
     axios
-      .post("http://localhost:3001/api/countSearches",  {numberOfSearches} )
+      .post("http://localhost:3001/api/countSearches", { numberOfSearches })
       .then((result) => console.log(result))
       .catch((error) => console.log(error));
-}
-
-
-
+  };
 
   return (
     <div className="search">
@@ -60,7 +54,7 @@ const Search = () => {
       <div className="container-fluid search-bar ">
         <div className="row pt-3 pb-3 justify-content-center">
           <div className="name col-12 col-lg-4">
-            <label for="">Artist Name</label>
+            <label>Artist Name</label>
             <br />
             <input
               type="text"
@@ -70,7 +64,7 @@ const Search = () => {
             />
           </div>
           <div className=" status col-12 col-lg-3">
-            <label for="">Status</label>
+            <label>Status</label>
             <br />
             <select
               onChange={(e) =>
@@ -81,16 +75,14 @@ const Search = () => {
               }
             >
               <option value="All">All</option>
-              <option value="Alive" href="">
-                Alive
-              </option>
+              <option value="Alive">Alive</option>
               <option value="Dead">Dead</option>
             </select>
           </div>
           <div className="type  col-lg-5">
             <div className="row justify-content-between">
               <div className=" col-6">
-                <label for="">Type</label>
+                <label>Type</label>
                 <br />
                 <select
                   onChange={(e) =>
@@ -100,13 +92,17 @@ const Search = () => {
                     }))
                   }
                 >
-                  {artistType.map((type) => (
-                    <option value={type}>{type}</option>
+                  {artistType.map((type, index) => (
+                    <option key={index} value={type}>
+                      {type}
+                    </option>
                   ))}
                 </select>
               </div>
               <div className="search-btn col-3  mt-3 ">
-                <button type="submit" onClick={handleSearch}>Search</button>
+                <button type="submit" onClick={handleSearch}>
+                  Search
+                </button>
               </div>
             </div>
           </div>
@@ -125,7 +121,7 @@ const Search = () => {
               <div className="card  col-9 col-md-3 col-lg-3 m-3 " key={index}>
                 <img src={artist.imageSrc} alt="" />
                 <div className="text-center m-3">
-                  <label for="">
+                  <label>
                     <h5>{artist.fullName}</h5>
                   </label>
                 </div>
