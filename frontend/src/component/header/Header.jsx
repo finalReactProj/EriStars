@@ -4,16 +4,18 @@ import Camels from "../../assets/camels.jpg";
 import "./headers.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import { GiHamburgerMenu } from "react-icons/gi";
 const Header = ({ isAuthenticate, setUserAuthenticated }) => {
-  //const [isAuthenticated, setIsAuthenticated] = useState(false);
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   axios.get("http://localhost:3001/api/Auth", { withCredentials: true })
-  //     .then((response) =>
-  //       setIsAuthenticated(response.data.message))
-  //     .catch((error) =>error.response.data.message);
-  // }, [isAuthenticated]);
-
+  const [smallSize, setsmallSize] = useState(false)
+  
+  window.addEventListener("resize",()=> {
+     if (window.innerWidth <= 630) {
+     setsmallSize(true)
+     } else {
+       setsmallSize(false)
+   }
+  })
   const handleLogout = () => {
     const con = confirm("are you sure you want to logout?");
     if (con) {
@@ -32,29 +34,36 @@ const Header = ({ isAuthenticate, setUserAuthenticated }) => {
     <>
       <div className="header-container">
         <img src={logo} alt="EriStars-logo" className="logo" />
-        <ul className="navLists">
-          <li>
-            <Link  to="/">Home</Link>
-          </li>
-          <li>
-            <Link to="/search">Search</Link>
-          </li>
-          <li>
-            <Link to="/about">About</Link>
-          </li>
-          <li>
-            <Link to="/contact">Contact</Link>
-          </li>
-        </ul>
-        {isAuthenticate ? (
-          <button onClick={handleLogout} className="logout_btn">
-            Logout
-          </button>
+        {smallSize ? (
+          <GiHamburgerMenu className="burger-icon" />
         ) : (
-          <Link to="/login">
-            <button className="login_btn">Login</button>
-          </Link>
+          <ul className="navLists">
+            <li>
+              <Link to="/">Home</Link>
+            </li>
+            <li>
+              <Link to="/search">Search</Link>
+            </li>
+            <li>
+              <Link to="/about">About</Link>
+            </li>
+            <li>
+              <Link to="/contact">Contact</Link>
+            </li>
+          </ul>
         )}
+
+        <div className="header-auth">
+          {isAuthenticate ? (
+            <button onClick={handleLogout} className="logout_btn">
+              Logout
+            </button>
+          ) : (
+            <Link to="/login">
+              <button className="login_btn">Login</button>
+            </Link>
+          )}
+        </div>
       </div>
       <img className="camel_logo mb-6" src={Camels} alt="" />
     </>
