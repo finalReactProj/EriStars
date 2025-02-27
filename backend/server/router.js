@@ -166,7 +166,7 @@ router.post("/api/forgot-password", async (req, res) => {
   const user = await userModel.findOne({email})
     if (!user) return res.status(404).send({ message: "provide valid email please!" });
     const token = jwt.sign({ id: user._id }, process.env.JWTSECURITY, { expiresIn: "1hr" })
-    const resetUrl = `http://localhost:5174/reset-password?token=${token}`;
+    const resetUrl = `http://localhost:5173/reset-password?token=${token}`;
    
     const transporter = nodemailer.createTransport({
       service: "gmail",
