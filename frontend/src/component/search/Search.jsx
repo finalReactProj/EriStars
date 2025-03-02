@@ -1,7 +1,51 @@
 import abeba from "../../assets/abebaHaile.jpg"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./search.css";
+import {  useEffect, useState } from "react";
+import axios from "axios";
 const Search = () => {
+  const artistType = [
+    "All",
+    "Singer",
+    "Musician",
+    "Actor/Actress",
+    "Author",
+    "Poet",
+    "Painter",
+  ];
+  const [artists, setArtists] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+  const [numberOfSearches, setNumberOfSearches] = useState("");
+  const [searches, setSearches] = useState({
+    status: "",
+    type: "",
+  });
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/getAll")
+      .then((result) => {
+        setArtists(result.data.message);
+      })
+      .catch((error) => console.log(error.response.data.message));
+  }, []);
+
+  const searchedArtists = artists
+    .filter((artist) => {
+      return (
+        artist.fullName.toLowerCase().includes(searchTerm.toLowerCase()) &&
+        artist.status.toLowerCase().includes(searches.status.toLowerCase()) &&
+        artist.type.toLowerCase().includes(searches.type.toLowerCase())
+      );
+    })
+    .sort((a, b) => a.fullName.localeCompare(b.fullName));
+
+  const handleSearch = () => {
+    axios
+      .post("http://localhost:3001/api/countSearches", { numberOfSearches })
+      .then((result) => console.log(result))
+      .catch((error) => console.log(error));
+  };
+
   return (
     <div className="search">
       <div className="search-title text-center my-4">
@@ -10,38 +54,55 @@ const Search = () => {
       <div className="container-fluid search-bar ">
         <div className="row pt-3 pb-3 justify-content-center">
           <div className="name col-12 col-lg-4">
-            <label for="">Artist Name</label>
+            <label>Artist Name</label>
             <br />
-            <input type="text" placeholder="Enter Name" />
+            <input
+              type="text"
+              placeholder="Enter Name"
+              onChange={(e) => setSearchTerm(e.target.value)}
+              onBlur={(e) => setNumberOfSearches(e.target.value)}
+            />
           </div>
           <div className=" status col-12 col-lg-3">
-            <label for="">Status</label>
+            <label>Status</label>
             <br />
-            <select name="" id="">
-              <option value="">All</option>
-              <option value="" href="">
-                Current
-              </option>
-              <option value="">Retired</option>
+            <select
+              onChange={(e) =>
+                setSearches((current) => ({
+                  ...current,
+                  status: e.target.value,
+                }))
+              }
+            >
+              <option value="All">All</option>
+              <option value="Alive">Alive</option>
+              <option value="Dead">Dead</option>
             </select>
           </div>
           <div className="type  col-lg-5">
             <div className="row justify-content-between">
               <div className=" col-6">
-                <label for="">Type</label>
+                <label>Type</label>
                 <br />
-                <select name="" id="">
-                  <option value="">All</option>
-                  <option value="">Singer</option>
-                  <option value="">Musician</option>
-                  <option value="">Actor/Actress</option>
-                  <option value="">Author</option>
-                  <option value="">Poet</option>
-                  <option value="">Painter</option>
+                <select
+                  onChange={(e) =>
+                    setSearches((current) => ({
+                      ...current,
+                      type: e.target.value,
+                    }))
+                  }
+                >
+                  {artistType.map((type, index) => (
+                    <option key={index} value={type}>
+                      {type}
+                    </option>
+                  ))}
                 </select>
               </div>
               <div className="search-btn col-3  mt-3 ">
-                <button  type="submit">Search</button>
+                <button type="submit" onClick={handleSearch}>
+                  Search
+                </button>
               </div>
             </div>
           </div>
@@ -52,62 +113,30 @@ const Search = () => {
         <h4>Search Results</h4>
       </div>
       <div className="continer-fluid card-cont">
-          <div className="row mb-5 justify-content-around px-lg-4 card-container ">
-                   <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
-                     <img src={abeba} alt="" />
-                     <div className="text-center m-3">
-                       <label for="">
-                         <h5>Isaias-Tsegai</h5>
-                       </label>
-                     </div>
-                     <div className="viewbtn row text-center">
-                       <a
-                         className="col-10 mx-auto py-1"
-                         href="https://tesfanews.com/isaias-tsegay-proficient-master-of-the-literature-of-the-eye/"
-                       >
-                         View
-                       </a>
-                     </div>
-                   </div>
-                   <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
-                     <img src={abeba} alt="" />
-                     <div className="text-center m-3">
-                       <label for="">
-                         <h5>Abraham Afewerki</h5>
-                       </label>
-                     </div>
-                     <div className="viewbtn row text-center">
-                       <a
-                         className="col-10 mx-auto py-1"
-                         href="https://en.wikipedia.org/wiki/Abraham_Afewerki"
-                         target="_blank"
-                       >
-                         View
-                       </a>
-                     </div>
-                   </div>
-                   <div className="card  col-9 col-md-3 col-lg-3 m-3 ">
-                     <img src={abeba} alt="" />
-                     <div className="text-center m-3">
-                       <label for="">
-                         <h5>Solomon Tsehaye</h5>
-                       </label>
-                     </div>
-                     <div className="viewbtn row text-center">
-                       <a
-                         className="col-10 mx-auto py-1"
-                         href="https://en.wikipedia.org/wiki/Eritrea,_Eritrea,_Eritrea"
-                       >
-                         View
-                       </a>
-                     </div>
-                   </div>
-                 </div>
-          
+        <div className="row mb-5 justify-content-around px-lg-4 card-container ">
+          {searchedArtists.length == 0 ? (
+            <p>No artist found for "{searchTerm}".</p>
+          ) : (
+            searchedArtists.map((artist, index) => (
+              <div className="card  col-9 col-md-3 col-lg-3 m-3 " key={index}>
+                <img src={artist.imageSrc} alt="" />
+                <div className="text-center m-3">
+                  <label>
+                    <h5>{artist.fullName}</h5>
+                  </label>
+                </div>
+                <div className="viewbtn row text-center">
+                  <a className="col-10 mx-auto py-1" href={artist.history}>
+                    View
+                  </a>
+                </div>
+              </div>
+            ))
+          )}
+        </div>
       </div>
     </div>
   );
-      
-}
+};
 
 export default Search;

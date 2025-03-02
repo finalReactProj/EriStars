@@ -3,9 +3,9 @@
   width: 100%;
   font-family: Inter;
   display: flex;
-  justify-content: space-around;
+  justify-content: space-between;
   align-items: center;
-  padding: 0.5rem 0;
+  padding: 0.5rem 2rem;
 }
 .logo {
   width: 110px;
@@ -31,15 +31,31 @@
   color: black;
 }
 
-.btn {
+.login_btn {
   padding: 0.6rem 2rem;
   border: none;
   background-color: #c4ceda;
   border-radius: 0.8rem;
   transition: all 1s;
 }
-.btn:hover {
+.login_btn:hover{
+
   background-color: rgb(196, 206, 218, 0.5);
+}
+
+.logout_btn{
+  padding: 0.6rem 2rem;
+  border: none;
+  background-color: #e2b6a5;
+  border-radius: 0.8rem;
+  transition: all 1s;
+}
+
+.logout_btn:hover {
+  background-color: rgba(105, 19, 6, 0.5);
+}
+.burger-icon{
+  font-size: 40px;
 }
 .camel_logo {
   width: 100%;
@@ -53,8 +69,6 @@
 }
 
 @media screen and (max-width:630px){
-   .navLists{
-    display: none;
-   } 
 
+ 
 }
