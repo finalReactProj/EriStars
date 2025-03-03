@@ -32,17 +32,11 @@ const Home = () => {
       .get("http://localhost:3001/api/getPopularArtists")
       .then((res) => {
         setMostlySearches(res.data.message);
-        //count();
       })
 
       .catch((error) => console.error(error));
   }, []);
 
-  // const count = () => {
-  //   const sevenDays = new Date().getTime() - 7 * 24 * 60 * 60 * 1000;
-  //   return searchEvents.filter((event) => new Date(event.date) >= sevenDays)
-  //     .length;
-  // };
 
 
   return (

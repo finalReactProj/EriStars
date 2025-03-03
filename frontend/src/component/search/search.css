@@ -12,6 +12,9 @@
   padding-right: 4rem;
   box-shadow: 0 0 10px rgb(161, 159, 159);
 }
+.search-bar input{
+  outline: 0;
+}
 .search-btn button {
   border: none;
   background-color: rgb(173, 128, 14);

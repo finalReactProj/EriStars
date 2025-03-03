@@ -4,7 +4,6 @@ import {  imageModel, userModel } from "./schema.js";
 import express from "express";
 import dotenv from "dotenv/config";
 import nodemailer from "nodemailer"
-import cron from "node-cron"
 
 
 const router = express.Router()
@@ -228,13 +227,16 @@ router.get("/api/getAllUsers", async (req, res) => {
 
 
 //count total searches
-
+ 
 router.post("/api/countSearches", async (req, res) => {
   try {
-        const artist = req.body.numberOfSearches;
+    const artist = req.body.artistName;
+    console.log(artist)
         if (!artist)
           return res.status(400).send({ message: "search input is empty" });
-        const checkArtist = await imageModel.findOne({ fullName: artist });
+        const checkArtist = await imageModel.findOne({
+          fullName: { $regex: new RegExp(`^${artist}$`, "i") },
+        });
         if (!checkArtist)
           return res.status(404).send({ message: "artist is not registered" });
         checkArtist.count += 1;

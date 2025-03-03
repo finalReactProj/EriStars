@@ -1,4 +1,3 @@
-import abeba from "../../assets/abebaHaile.jpg"
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./search.css";
 import {  useEffect, useState } from "react";
@@ -6,16 +5,18 @@ import axios from "axios";
 const Search = () => {
   const artistType = [
     "All",
+    "Linguistics",
     "Singer",
-    "Musician",
-    "Actor/Actress",
+    "Actor",
+    "Actress",
     "Author",
     "Poet",
+    "Comedian",
     "Painter",
   ];
   const [artists, setArtists] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-  const [numberOfSearches, setNumberOfSearches] = useState("");
+  const [artistName, setArtistName] = useState("");
   const [searches, setSearches] = useState({
     status: "",
     type: "",
@@ -41,18 +42,17 @@ const Search = () => {
 
   const handleSearch = () => {
     axios
-      .post("http://localhost:3001/api/countSearches", { numberOfSearches })
-      .then((result) => console.log(result))
-      .catch((error) => console.log(error));
+      .post("http://localhost:3001/api/countSearches", { artistName })
+      .then((result) => alert(result.data.message))
+      .catch((error) => alert(error.response.data.message));
   };
-
   return (
     <div className="search">
       <div className="search-title text-center my-4">
         <h3>Search</h3>
       </div>
       <div className="container-fluid search-bar ">
-        <div className="row pt-3 pb-3 justify-content-center">
+        <div className="row pt-3 pb-3 justify-content-center ">
           <div className="name col-12 col-lg-4">
             <label>Artist Name</label>
             <br />
@@ -60,7 +60,7 @@ const Search = () => {
               type="text"
               placeholder="Enter Name"
               onChange={(e) => setSearchTerm(e.target.value)}
-              onBlur={(e) => setNumberOfSearches(e.target.value)}
+              onBlur={(e) => setArtistName(e.target.value)}
             />
           </div>
           <div className=" status col-12 col-lg-3">
@@ -75,8 +75,8 @@ const Search = () => {
               }
             >
               <option value="All">All</option>
-              <option value="Alive">Alive</option>
-              <option value="Dead">Dead</option>
+              <option value="Current">Current</option>
+              <option value="Retired">Retired</option>
             </select>
           </div>
           <div className="type  col-lg-5">

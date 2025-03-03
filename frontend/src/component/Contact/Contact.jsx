@@ -62,9 +62,10 @@ const {
                     First Name
                   </label>
                   <input
+                  autoFocus
                     {...register("firstName")}
                     type="text"
-                    className="w-full  border-b-2 border-gray-400 mb-4"
+                    className="w-full outline-0  border-b-2 border-gray-400 mb-4"
                   />
                 </div>
                 <div>
@@ -74,7 +75,7 @@ const {
                   <input
                     {...register("lastName")}
                     type="text"
-                    className="w-full border-b-2 border-gray-400 mb-4"
+                    className="w-full outline-0 border-b-2 border-gray-400 mb-4"
                   />
                 </div>
               </div>
@@ -85,7 +86,7 @@ const {
                 <input
                   {...register("email")}
                   type="email"
-                  className="w-full  border-b-2 border-gray-400 mb-4"
+                  className="w-full  outline-0  border-b-2 border-gray-400 mb-4"
                 />
               </div>
               <div>
@@ -96,7 +97,7 @@ const {
                 <input
                   {...register("phone")}
                   type="number"
-                  className="w-full  border-b-2 border-gray-400 mb-4"
+                  className="w-full  outline-0  border-b-2 border-gray-400 mb-4"
                 />
               </div>
               <div>
@@ -106,7 +107,7 @@ const {
                 <textarea
                   {...register("message")}
                   rows="5"
-                  className="w-full border-b-2 border-gray-400 resize-vertical"
+                  className="w-full outline-0  border-b-2 border-gray-400 resize-vertical"
                 ></textarea>
               </div>
               <button
