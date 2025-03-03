@@ -39,19 +39,49 @@ function App() {
   };
   return (
     <>
-      <BrowserRouter>
-        <Header/>
-        <Routes>
-        
-          <Route path="/" element={<Home/> } />
-          <Route path="/search" element={<Search/> } />
-          <Route path="/about" element={<About/> } />
-          {/* <Route path="/contact" element={<Contact/> } /> */}
-        </Routes>
-        <Footer/>
-      </BrowserRouter>
-      </>
-  )
+        <BrowserRouter>
+          <LayOut
+            isAuthenticate={userAuthenticated}
+            setUserAuthenticated={setUserAuthenticated}
+          >
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+              <Route path="/register" element={<Register />} />
+              <Route path="/reset-password" element={<ResetPass />} />
+              <Route path="/admin" element={<Admin />} />
+              <Route
+                path="/search"
+                element={
+                  <ProtectedRoute
+                    element={<Search />}
+                    isAuthenticate={isAuthenticated}
+                  />
+                }
+              />
+              <Route
+                path="/about"
+                element={
+                  <ProtectedRoute
+                    element={<About />}
+                    isAuthenticate={isAuthenticated}
+                  />
+                }
+              />
+              <Route
+                path="/contact"
+                element={
+                  <ProtectedRoute
+                    element={<Contact />}
+                    isAuthenticate={isAuthenticated}
+                  />
+                }
+              />
+            </Routes>
+          </LayOut>
+        </BrowserRouter>
+    </>
+  );
 }
 
 export default App
