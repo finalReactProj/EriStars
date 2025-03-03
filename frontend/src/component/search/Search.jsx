@@ -1,8 +1,10 @@
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./search.css";
-import {  useEffect, useState } from "react";
+import {  useContext, useEffect, useState } from "react";
 import axios from "axios";
+import { myContext } from "../../App";
 const Search = () => {
+  const url = useContext(myContext);
   const artistType = [
     "All",
     "Linguistics",
@@ -23,7 +25,7 @@ const Search = () => {
   });
   useEffect(() => {
     axios
-      .get("http://localhost:3001/getAll")
+      .get(`${url}/getAll`)
       .then((result) => {
         setArtists(result.data.message);
       })
@@ -42,8 +44,8 @@ const Search = () => {
 
   const handleSearch = () => {
     axios
-      .post("http://localhost:3001/api/countSearches", { artistName })
-      .then((result) => alert(result.data.message))
+      .post(`${url}/api/countSearches`, { artistName })
+      .then((result) => console.log(result.data.message))
       .catch((error) => alert(error.response.data.message));
   };
   return (

@@ -1,8 +1,10 @@
-import React, {  useEffect,useState } from 'react'
+import React, {  useEffect,useState,useContext } from 'react'
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./home.css"
 import axios from 'axios';
+import { myContext } from '../../App';
 const Home = () => {
+    const url = useContext(myContext);
   const [artist, setArtist] = useState({
     art: null,
     user: null,
@@ -11,25 +13,25 @@ const Home = () => {
   const [mostlySearches, setMostlySearches] = useState([]);
   useEffect(() => {
     axios
-      .get("http://localhost:3001/api/getAllArtists")
+      .get(`${url}/api/getAllArtists`)
       .then((res) =>
         setArtist((current) => ({ ...current, art: res.data.message }))
       )
       .catch((error) => console.error(error));
     axios
-      .get("http://localhost:3001/api/getAllUsers")
+      .get(`${url}/api/getAllUsers`)
       .then((res) =>
         setArtist((current) => ({ ...current, user: res.data.message }))
       )
       .catch((error) => console.error(error));
  axios
-   .get("http://localhost:3001/api/getAllSearches")
+   .get(`${url}/api/getAllSearches`)
    .then((res) =>
      setArtist((current) => ({ ...current, count: res.data.message }))
    )
    .catch((error) => console.error(error));
     axios
-      .get("http://localhost:3001/api/getPopularArtists")
+      .get(`${url}/api/getPopularArtists`)
       .then((res) => {
         setMostlySearches(res.data.message);
       })

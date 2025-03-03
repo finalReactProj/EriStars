@@ -1,9 +1,11 @@
 import axios from "axios";
-import React from "react";
+import React, { useContext } from "react";
 import { useForm } from "react-hook-form";
 import {  useNavigate, useSearchParams } from "react-router-dom";
+import { myContext } from "../../App";
 
 const ResetPass = () => {
+    const url = useContext(myContext);
   const navigateTo=  useNavigate()
   const {
     register,
@@ -16,7 +18,7 @@ const ResetPass = () => {
     const resetToken= queryParam.get("token")
     const submit = (data) => {
         axios
-          .post("http://localhost:3001/api/reset-password", {password: data.password,resetToken })
+          .post(`${url}/api/reset-password`, {password: data.password,resetToken })
             .then((res) => { alert(res.data.message); navigateTo("/login") })
           .catch((error) => alert(error.response.data.message));
     }

@@ -1,26 +1,19 @@
-import React, { useEffect, useState } from "react";
+import React, {  useState,useContext } from "react";
 import logo from "../../assets/eristar.png";
 import Camels from "../../assets/camels.jpg";
 import "./headers.css";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import { GiHamburgerMenu } from "react-icons/gi";
+import { myContext } from "../../App";
 const Header = ({ isAuthenticate, setUserAuthenticated }) => {
+    const url = useContext(myContext);
   const navigate = useNavigate();
-  const [smallSize, setsmallSize] = useState(false);
-
-  window.addEventListener("resize", () => {
-    if (window.innerWidth <= 630) {
-      setsmallSize(true);
-    } else {
-      setsmallSize(false);
-    }
-  });
   const handleLogout = () => {
     const con = confirm("are you sure you want to logout?");
     if (con) {
       axios
-        .post("http://localhost:3001/api/logout", {}, { withCredentials: true })
+        .post(`${url}/api/logout`, {}, { withCredentials: true })
         .then((res) => {
           setUserAuthenticated(false);
           console.log(res.data.message);

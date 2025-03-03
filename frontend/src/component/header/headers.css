@@ -5,7 +5,7 @@
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
-  padding: 0.5rem 2rem;
+  padding: 1rem 5rem ;
 }
 .logo {
   width: 110px;
@@ -78,6 +78,9 @@
 }
 
 @media screen and (max-width: 630px) {
+  .header-container{
+    padding: .5rem 2rem;
+  }
   .display{
   justify-self: end;
   }

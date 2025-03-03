@@ -2,9 +2,11 @@ import axios from "axios";
 import { useForm } from "react-hook-form";
 import { Link, useNavigate } from "react-router-dom";
 import "./login.css";
-import { useRef, useState } from "react";
+import { useRef, useState ,useContext} from "react";
+import { myContext } from "../../App";
 
 const Login = () => {
+    const url = useContext(myContext);
   const [userToLogin, setUserToLogin] = useState(true);
   const emailRef = useRef(null)
   const navigateTo = useNavigate();
@@ -16,7 +18,7 @@ const Login = () => {
   const handlelogin = (data) => {
     axios
       .post(
-        "http://localhost:3001/api/login",
+        `${url}/api/login`,
         { data },
         { withCredentials: true }
       )
@@ -26,7 +28,7 @@ const Login = () => {
 
   const handleForgotPassword = () => {
     const email = emailRef.current.value;
-    axios.post("http://localhost:3001/api/forgot-password", { email })
+    axios.post(`${url}/api/forgot-password`, { email })
       .then(res => console.log(res.data.message))
     .catch(error=>console.log(error))
   };

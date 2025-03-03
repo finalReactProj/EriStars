@@ -2,8 +2,10 @@ import "./register.css";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import axios from "axios";
+import { myContext } from "../../App";
+import { useContext } from "react";
 const Register = () => {
-  
+    const url = useContext(myContext);
   const {
     register,
     handleSubmit,
@@ -13,7 +15,7 @@ const Register = () => {
   const watchPassword = watch("password");
   const handleUserData = (data) => {
     axios
-      .post("http://localhost:3001/api/register", { data })
+      .post(`${url}/api/register`, { data })
       .then(() => {
         alert("user registerd successfully");
         navigate("/login");

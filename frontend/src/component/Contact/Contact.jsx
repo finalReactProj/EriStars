@@ -1,20 +1,20 @@
 import axios from "axios";
 import { FiPhone, FiMail, FiMapPin } from "react-icons/fi"; // Feather Icons
 import { useForm } from "react-hook-form";
-
-
-
+import { useContext } from "react";
+import { myContext } from "../../App";
 
 const Contact = () => {
+    const url = useContext(myContext);
 const {
   register,
   handleSubmit,
+  reset,
   formState: { errors },
 } = useForm();
   const sendmessage = (data) => {
-    console.log(data);
-    axios.post("http://localhost:3001/api/message", { data })
-      .then(result => console.log(result.data.message))
+    axios.post(`${url}/api/message`, { data })
+      .then(result => { console.log(result.data.message);reset() })
     .catch(error=>console.log(error.response.data.message))
  }
 

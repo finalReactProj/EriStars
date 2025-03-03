@@ -10,9 +10,11 @@ import Login from "./component/login/Login";
 import Register from "./component/register/Register";
 import Contact from "./component/Contact/Contact";
 import ProtectedRoute from "./component/protected/ProtectedRoute";
-import {  useState } from "react";
+import {  createContext, useState } from "react";
 import Admin from "./component/admin/Admin";
 import ResetPass from "./component/login/ResetPass";
+
+export const myContext = createContext();
 
 function LayOut({ children,isAuthenticate,setUserAuthenticated }) {
   const location = useLocation();
@@ -32,13 +34,14 @@ function LayOut({ children,isAuthenticate,setUserAuthenticated }) {
   );
 }
 function App() {
-  
+  const url="http://localhost:3001"
   const [userAuthenticated, setUserAuthenticated] = useState(null);
   const isAuthenticated = (value) => {
     setUserAuthenticated(value);
   };
   return (
     <>
+      <myContext.Provider value={url}>
         <BrowserRouter>
           <LayOut
             isAuthenticate={userAuthenticated}
@@ -80,6 +83,7 @@ function App() {
             </Routes>
           </LayOut>
         </BrowserRouter>
+      </myContext.Provider>
     </>
   );
 }
