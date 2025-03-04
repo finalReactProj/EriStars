@@ -1,4 +1,4 @@
-import bcrypt from "bcrypt";
+import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken"
 import {  imageModel, userModel } from "./schema.js";
 import express from "express";
